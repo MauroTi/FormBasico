@@ -1,0 +1,18 @@
+﻿@model FormBasico.Models.OsModel
+
+<h2>Cadastro de OS</h2>
+
+<form asp-action="Form" method="post">
+    <label for="numeroOS">Número da OS (6 dígitos):</label>
+    <input asp-for="NumeroOS" class="form-control" maxlength="6" required pattern="\d{6}" />
+    <span asp-validation-for="NumeroOS" class="text-danger"></span>
+    <br />
+    <button type="submit" class="btn btn-primary">Salvar</button>
+</form>
+
+@if (ViewBag.Mensagem != null)
+{
+    <div class="alert alert-success mt-3">
+        @ViewBag.Mensagem
+    </div>
+}
