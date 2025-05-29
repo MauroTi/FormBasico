@@ -1,29 +1,30 @@
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// 1) Registre seus serviços antes de Build()
+builder.Services.AddScoped<FormBasico.Services.OsService>();
+builder.Services.AddScoped<FormBasico.Services.MySqlConnectionService>();
+
+// 2) Adicione MVC
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// 3) Configure o pipeline HTTP
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();        // para arquivos estáticos (css, js, imagens)
 app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapStaticAssets();
-
+// 4) Rota padrão
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
-
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

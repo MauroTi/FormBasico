@@ -16,19 +16,23 @@ namespace FormBasico.Controllers
         [HttpGet]
         public IActionResult Form()
         {
-            return View("Form");
+            return View();   // procura por Views/Os/Form.cshtml
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Form(OsModel model)
         {
             if (ModelState.IsValid)
             {
                 _osService.CadastrarOs(model);
                 ViewBag.Mensagem = "OS cadastrada com sucesso!";
+                // Para evitar repost, você pode:
+                // return RedirectToAction("Form");
             }
 
-            return View();
+            // Em caso de erro, retorna o model para repovoar o formulário
+            return View(model);
         }
 
         [HttpGet]

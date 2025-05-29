@@ -3,10 +3,21 @@
 <h2>Cadastro de OS</h2>
 
 <form asp-action="Form" method="post">
-    <label for="numeroOS">Número da OS (6 dígitos):</label>
-    <input asp-for="NumeroOS" class="form-control" maxlength="6" required pattern="\d{6}" />
-    <span asp-validation-for="NumeroOS" class="text-danger"></span>
-    <br />
+    @Html.AntiForgeryToken()
+
+    <!-- Resumo de erros de validação -->
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    <div class="mb-3">
+        <label asp-for="NumeroOS" class="form-label">Número da OS (6 dígitos):</label>
+        <input asp-for="NumeroOS"
+               class="form-control"
+               maxlength="6"
+               required
+               pattern="\\d{6}" />
+        <span asp-validation-for="NumeroOS" class="text-danger"></span>
+    </div>
+
     <button type="submit" class="btn btn-primary">Salvar</button>
 </form>
 
@@ -15,4 +26,9 @@
     <div class="alert alert-success mt-3">
         @ViewBag.Mensagem
     </div>
+}
+
+@section Scripts {
+    <!-- Injeta os scripts de validação gerados pelo _ValidationScriptsPartial.cshtml -->
+    <partial name="_ValidationScriptsPartial" />
 }
